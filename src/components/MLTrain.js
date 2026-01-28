@@ -26,6 +26,7 @@ import {
 } from "../GlobalState";
 import { useAtom } from "jotai";
 import { data, train } from "@tensorflow/tfjs";
+
 // import JSONWriter from "./JSONWriter";
 // import JSONLoader from "./JSONLoader";
 
@@ -134,7 +135,7 @@ export default function MLTrain({ webcamRef }) {
 
     const ReguarlDisplay = (
         <Grid container space={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
                 <Button
                     variant="contained"
                     color="primary"
@@ -154,24 +155,26 @@ export default function MLTrain({ webcamRef }) {
                     }}
                 />
                 <Typography variant="h6">
-                    LOSS: {lossVal === null ? "" : lossVal} <br />
+                    LOSS (prediction error): {lossVal === null ? "" : lossVal} <br />
                     Dataset Size: {imgSrcArr.length} <br />
                 </Typography>
                 {/* <JSONWriter /> <br /> */}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
                 <div className="hyper-params">
                     {/* <label>Learning rate</label> */}
+                    <Grid item xs={12}>
                     {generateSelectComponent(
-                        "Learning Rate",
+                        "Learning Rate: how much model changes its weights.",
                         [0.003, 0.001, 0.0001, 0.00001],
                         setLearningRate,
                         learningRate
                     )}
+                    </Grid>
 
                     {/* <label>Epochs</label> */}
                     {generateSelectComponent(
-                        "Epochs",
+                        "Epochs: # of times the dataset is seen by model.",
                         [10, 100, 200, 500],
                         setEpochs,
                         epochs
@@ -179,7 +182,7 @@ export default function MLTrain({ webcamRef }) {
 
                     {/* <label>Batch size </label> */}
                     {generateSelectComponent(
-                        "Batch Size",
+                        "Batch Size: # of images for model to be updated.",
                         batchValueArray,
                         setBatchSize,
                         batchSize,
@@ -188,7 +191,7 @@ export default function MLTrain({ webcamRef }) {
 
                     {/* <label>Hidden units</label> */}
                     {generateSelectComponent(
-                        "Hidden units",
+                        "Hidden units: number of internal processing nodes.",
                         [10, 100, 200],
                         setHiddenUnits,
                         hiddenUnits
