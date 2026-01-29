@@ -1,6 +1,13 @@
 import * as tf from "@tensorflow/tfjs";
 import { getDefaultStore } from "jotai";
 import { stopTrainingAtom, trainingProgressAtom } from "../GlobalState";
+import {
+  predictionAtom,
+  confidenceAtom,
+  probabilitiesAtom,
+  modelAtom,
+  truncatedMobileNetAtom,
+} from "../GlobalState";
 
 export async function loadTruncatedMobileNet() {
   const mobilenet = await tf.loadLayersModel(
@@ -133,33 +140,54 @@ export async function buildModel(
   return model;
 }
 
+// modify to obtain the confidence scores
 export async function predict(truncatedMobileNet, model, img) {
   const embeddings = truncatedMobileNet.predict(img);
   const predictions = await model.predict(embeddings);
-  const predictedClass = predictions.as1D().argMax();
-  const classId = (await predictedClass.data())[0];
-  return classId;
+  // this returns the direction with the highest probability
+  //const predictedClass = predictions.as1D().argMax();
+  // this is an array of probabilities
+  const probs = await predictions.data();
+
+  // direction
+  const classId = probs.indexOf(Math.max(...probs));
+  // confidence of that direction
+  const confidence = probs[classId];
+  return {classId, confidence, probabilities: Array.from(probs)};
 }
 
 export async function predictDirection(webcamRef, truncatedMobileNet, model) {
   const newImageSrc = webcamRef.current.getScreenshot();
+  let direction = -1
+  let classId = null;
+  let confidence = 0;
+  let probabilities = [];
+  
   if (newImageSrc) {
     const imgTensor = await base64ToTensor(newImageSrc);
-    const prediction = await predict(truncatedMobileNet, model, imgTensor);
+    const {classId, confidence, probabilities} = await predict(truncatedMobileNet, model, imgTensor);
+  
 
-    switch (prediction) {
+    switch (classId) {
       case 0:
-        return 1;
+        direction= 1;
+        break;
       case 1:
-        return 3;
+        direction = 3;
+        break;
       case 2:
-        return 2;
+        direction = 2;
+        break;
       case 3:
-        return 0;
+        direction = 0;
+        break;
       default:
-        return -1;
+        direction = -1;
+        
     }
   }
+  return {direction, classId, confidence, probabilities}
+  
 }
 
 export async function base64ToTensor(base64) {

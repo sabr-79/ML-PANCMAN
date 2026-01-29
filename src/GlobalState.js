@@ -7,7 +7,11 @@ export const batchSizeAtom = atom(1); // Selected batch size
 export const hiddenUnitsAtom = atom(100); // Number of hidden units
 export const learningRateAtom = atom(0.0001); // Learning rate
 export const gameRunningAtom = atom(false); // Game state
+
+// ---- Prediction output ----
 export const predictionAtom = atom(null); // Current prediction
+export const confidenceAtom = atom(null); // confidence score 
+export const probabilitiesAtom = atom(null); // full array
 
 // ---- Model Training ----
 export const modelAtom = atom(null); // Model

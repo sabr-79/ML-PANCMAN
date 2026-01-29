@@ -23,9 +23,11 @@ import {
     imgSrcArrAtom,
     gameRunningAtom,
     predictionAtom,
+    probabilitiesAtom,
+    confidenceAtom
 } from "../GlobalState";
 import { useAtom } from "jotai";
-import { data, train } from "@tensorflow/tfjs";
+//import { data, train } from "@tensorflow/tfjs";
 
 // import JSONWriter from "./JSONWriter";
 // import JSONLoader from "./JSONLoader";
@@ -65,6 +67,11 @@ export default function MLTrain({ webcamRef }) {
     const [hiddenUnits, setHiddenUnits] = useAtom(hiddenUnitsAtom);
     const [isRunning] = useAtom(gameRunningAtom);
     const [, setPredictionDirection] = useAtom(predictionAtom);
+    const [, setConfidence] = useAtom(confidenceAtom);
+    const [, setProbabilities] = useAtom(probabilitiesAtom);
+    
+    
+
 
     // ---- Model Training ----
     const [model, setModel] = useAtom(modelAtom);
@@ -92,9 +99,15 @@ export default function MLTrain({ webcamRef }) {
     // Loop to predict direction
     async function runPredictionLoop() {
         while (isRunningRef.current) {
-            setPredictionDirection(
-                await predictDirection(webcamRef, truncatedMobileNet, model)
-            );
+            // store all the variables in the predictDirection function
+            const result = await predictDirection(webcamRef, truncatedMobileNet, model);
+
+            // For global state
+            setPredictionDirection(result.direction);
+            setConfidence(result.confidence);
+            setProbabilities(result.probabilities);
+            console.log("Prediction:", result);
+
             await new Promise((resolve) => setTimeout(resolve, 250));
         }
     }
