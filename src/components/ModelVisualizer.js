@@ -21,6 +21,8 @@ export default function ModelVisualizer(){
         3: "down"
     }
 
+    const displayImages = [...data].reverse();
+
     
     return(
         <div className ="Visualization">
@@ -35,7 +37,7 @@ export default function ModelVisualizer(){
             <section>
                 <h5>Image Data</h5> 
                 <div className = "image-grid">
-                    {data.slice(-20).map((d, i) => (
+                    {displayImages.slice(0,20).map((d, i) => (
                     <div key={i}>
                         <img src={d.src} width={40} />
                         <small>{d.label}</small>
