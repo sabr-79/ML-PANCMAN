@@ -160,12 +160,18 @@ export async function predictDirection(webcamRef, truncatedMobileNet, model) {
   const newImageSrc = webcamRef.current.getScreenshot();
   let direction = -1
   let classId = null;
-  let confidence = 0;
+  let confidence = null;
   let probabilities = [];
   
   if (newImageSrc) {
     const imgTensor = await base64ToTensor(newImageSrc);
-    const {classId, confidence, probabilities} = await predict(truncatedMobileNet, model, imgTensor);
+    const result = await predict(truncatedMobileNet, model, imgTensor);
+    
+    classId = result.classId;
+    confidence = result.confidence;
+    probabilities = result.probabilities;
+
+
   
 
     switch (classId) {

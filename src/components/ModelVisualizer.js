@@ -30,7 +30,10 @@ export default function ModelVisualizer(){
 
             <section>
                 <p>Prediction: {directionLabels[prediction] ?? "-"}</p>
-                <p>Confidence: {confidence ? confidence.toFixed(2) : "-"}</p>
+                <p>Confidence: {confidence !== null && confidence !== undefined ?  (confidence*100).toFixed(2) + "%": "-"}</p>
+
+                {/*<p>Confidence: {confidence ? confidence.toFixed(2) : "-"}</p> */}
+
                {/* <p>Loss: {loss ?? "-"} </p>*/}
             </section>
 
