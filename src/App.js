@@ -2,6 +2,7 @@ import React from "react";
 import PacMan from "./components/PacMan";
 import MLTrain from "./components/MLTrain";
 import DataCollection from "./components/DataCollection";
+import ModelVisualizer from "./components/ModelVisualizer";
 import {
     Box,
     CssBaseline,
@@ -45,7 +46,7 @@ export default function App() {
                 <Container sx={{ paddingTop: 3 }}>
                     <Grid container spacing={3}>
                         {/* Chart */}
-                        <Grid item xs={12} md={6} lg={6}>
+                        <Grid item xs={12} md={5} lg={4}>
                             <Paper
                                 sx={{
                                     p: 2,
@@ -69,10 +70,19 @@ export default function App() {
                             </Paper>
                         </Grid>
                         {/* Recent Deposits */}
-                        <Grid item xs={12} md={6} lg={6}>
+                        <Grid item xs={12} md={7} lg={8}>
+                            <Grid container spacing={2} sx={{ height: "100%" }}>
+                            <Grid item xs={12} md={8}>
                             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                                 <PacMan />
                             </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                            <Paper sx={{p: 2, height: "100%", overflowY: "auto"}}>
+                                <ModelVisualizer />
+                            </Paper>
+                            </Grid>
+                            </Grid> 
                         </Grid>
                     </Grid>
                 </Container>

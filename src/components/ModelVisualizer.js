@@ -9,7 +9,7 @@ import {imgSrcArrAtom, predictionAtom, probabilitiesAtom, confidenceAtom, lossAt
 
 export default function ModelVisualizer(){
     const [data] = useAtom(imgSrcArrAtom);
-    const [loss] = useAtom(lossAtom);
+    //const [loss] = useAtom(lossAtom);
     const [prediction] = useAtom(predictionAtom);
     const [probabilities] = useAtom(probabilitiesAtom);
     const [confidence] = useAtom(confidenceAtom);
@@ -21,7 +21,7 @@ export default function ModelVisualizer(){
             <section>
                 <p>Prediction: {prediction ?? "-"}</p>
                 <p>Confidence: {confidence ? confidence.toFixed(2) : "-"}</p>
-                <p>Loss: {loss ?? "-"} </p>
+               {/* <p>Loss: {loss ?? "-"} </p> */}
             </section>
 
             <section>

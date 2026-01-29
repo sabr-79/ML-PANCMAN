@@ -178,7 +178,7 @@ export default function MLTrain({ webcamRef }) {
                     {/* <label>Learning rate</label> */}
                     <Grid item xs={12}>
                     {generateSelectComponent(
-                        "Learning Rate: how much model changes its weights.",
+                        "Learning Rate: size of adjustment.",
                         [0.003, 0.001, 0.0001, 0.00001],
                         setLearningRate,
                         learningRate
@@ -187,7 +187,7 @@ export default function MLTrain({ webcamRef }) {
 
                     {/* <label>Epochs</label> */}
                     {generateSelectComponent(
-                        "Epochs: # of times the dataset is seen by model.",
+                        "Epochs: # of times the dataset is seen.",
                         [10, 100, 200, 500],
                         setEpochs,
                         epochs
@@ -195,7 +195,7 @@ export default function MLTrain({ webcamRef }) {
 
                     {/* <label>Batch size </label> */}
                     {generateSelectComponent(
-                        "Batch Size: # of images for model to be updated.",
+                        "Batch Size: # of images for model update.",
                         batchValueArray,
                         setBatchSize,
                         batchSize,
@@ -204,7 +204,7 @@ export default function MLTrain({ webcamRef }) {
 
                     {/* <label>Hidden units</label> */}
                     {generateSelectComponent(
-                        "Hidden units: number of internal processing nodes.",
+                        "Hidden units: number of internal  nodes.",
                         [10, 100, 200],
                         setHiddenUnits,
                         hiddenUnits
