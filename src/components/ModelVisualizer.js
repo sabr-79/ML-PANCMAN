@@ -13,15 +13,23 @@ export default function ModelVisualizer(){
     const [prediction] = useAtom(predictionAtom);
     const [probabilities] = useAtom(probabilitiesAtom);
     const [confidence] = useAtom(confidenceAtom);
+
+    const directionLabels = {
+        0: "right",
+        1: "up",
+        2: "left",
+        3: "down"
+    }
+
     
     return(
         <div className ="Visualization">
             <h4>Current Insights</h4>
 
             <section>
-                <p>Prediction: {prediction ?? "-"}</p>
+                <p>Prediction: {directionLabels[prediction] ?? "-"}</p>
                 <p>Confidence: {confidence ? confidence.toFixed(2) : "-"}</p>
-               {/* <p>Loss: {loss ?? "-"} </p> */}
+               {/* <p>Loss: {loss ?? "-"} </p>*/}
             </section>
 
             <section>
