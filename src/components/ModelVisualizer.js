@@ -21,8 +21,25 @@ export default function ModelVisualizer(){
         2: "left",
         3: "down"
     }
+    const directionArrows = {
+        0: "→",
+        1: "↑",
+        2: "←",
+        3: "↓"
+    }
 
     const displayImages = [...data].reverse();
+
+    let secondBest = null; 
+
+    if (Array.isArray(probabilities) && probabilities.length > 1 && prediction != null){
+        const indexed = probabilities.map((p,i) => ({prob:p, id: i }));
+        indexed.sort((a,b) => b.prob - a.prob);
+        secondBest = indexed[1]?.id !== prediction ? indexed[1] : indexed[2];
+       
+    }
+
+
 
     
     return(
@@ -30,8 +47,9 @@ export default function ModelVisualizer(){
             <h3>Current Insights</h3>
 
             <section>
-                <p>Prediction: {directionLabels[prediction] ?? "-"}</p>
+                <p>Prediction: {prediction != null ? directionLabels[prediction] + directionArrows[prediction] : "-"}</p>
                 <p>Confidence: {confidence !== null && confidence !== undefined ?  (confidence*100).toFixed(2) + "%": "-"}</p>
+                <p>Second guess: {secondBest ? directionLabels[secondBest.id] + directionArrows[secondBest.id] + (secondBest.prob*100).toFixed(2) + "%": "-"}</p>
                 {isLow && (
                     <h2 style={{color: "#ff0000"}}> 
                     ⚠ Model is confused. Try collecting more data for this gesture!
@@ -57,7 +75,7 @@ export default function ModelVisualizer(){
                     {displayImages.slice(0,20).map((d, i) => (
                     <div key={i}>
                         <img src={d.src} width={40} />
-                        <large>{d.label}</large>
+                        <small>{d.label}</small>
                     </div>
                     ))}
                 </div>
