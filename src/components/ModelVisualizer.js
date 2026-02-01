@@ -28,6 +28,18 @@ export default function ModelVisualizer(){
         2: "←",
         3: "↓"
     }
+    const sampleCount = {
+        right: 0,
+        up: 0,
+        left: 0,
+        down: 0,
+    }
+
+    data.forEach(d => {
+        if (sampleCount[d.label] !== undefined){
+            sampleCount[d.label]++;
+        }
+    })
 
     // reverse so it shows images by newest
     const displayImages = [...data].reverse();
@@ -41,6 +53,8 @@ export default function ModelVisualizer(){
         .sort((a,b) => b.prob - a.prob)[0];        
        
     }
+    console.log(data.map(d => [d.label, typeof d.label]));
+    
 
 
 
@@ -62,7 +76,16 @@ export default function ModelVisualizer(){
                     <h2 style={{color: "#008000"}}> 
                         ✓ Model is stable.
                     </h2>
-                )} 
+                )}
+            </section>
+            <section>
+                <h3>Training Samples</h3>
+                <ul>
+                <li>Up: {sampleCount.up}</li>
+                <li>Down: {sampleCount.down}</li>
+                <li>Left: {sampleCount.left}</li>
+                <li>Right: {sampleCount.right}</li>
+                </ul>
 
             </section>
 
