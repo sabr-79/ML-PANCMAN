@@ -64,9 +64,9 @@ export default function ModelVisualizer(){
             <h3>Current Insights</h3>
 
             <section>
-                <p>Prediction: {prediction != null ? directionLabels[prediction] + directionArrows[prediction] : "-"}</p>
+                <p>Prediction: {prediction != null ? directionLabels[prediction] + " " + directionArrows[prediction] : "-"}</p>
                 <p>Confidence: {confidence !== null && confidence !== undefined ?  (confidence*100).toFixed(2) + "%": "-"}</p>
-                <p>Second guess: {secondBest ? directionLabels[secondBest.id] + directionArrows[secondBest.id] + (secondBest.prob*100).toFixed(2) + "%": "-"}</p>
+                <p>Second guess: {secondBest ? directionLabels[secondBest.id] + "  " + directionArrows[secondBest.id] + " " + (secondBest.prob*100).toFixed(2) + "%": "-"}</p>
                 {isLow && (
                     <h2 style={{color: "#ff0000"}}> 
                     ⚠ Model has low confidence. Try collecting more data for this gesture!
