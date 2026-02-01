@@ -12,6 +12,8 @@ export const gameRunningAtom = atom(false); // Game state
 export const predictionAtom = atom(null); // Current prediction
 export const confidenceAtom = atom(null); // confidence score 
 export const probabilitiesAtom = atom(null); // full array
+// debug for secondbest confidence score
+export const classIdAtom = atom(null);
 
 // ---- Model Training ----
 export const modelAtom = atom(null); // Model

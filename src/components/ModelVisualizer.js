@@ -5,16 +5,17 @@
 // make it so it updates with each image and shows the confidence score clearly
 
 import {useAtom} from "jotai";
-import {imgSrcArrAtom, predictionAtom, probabilitiesAtom, confidenceAtom, lossAtom} from "../GlobalState";
+import {imgSrcArrAtom, predictionAtom, probabilitiesAtom, confidenceAtom, classIdAtom} from "../GlobalState";
 
 export default function ModelVisualizer(){
     const [data] = useAtom(imgSrcArrAtom);
-    //const [loss] = useAtom(lossAtom);
     const [prediction] = useAtom(predictionAtom);
     const [probabilities] = useAtom(probabilitiesAtom);
     const [confidence] = useAtom(confidenceAtom);
+    const [classId] = useAtom(classIdAtom);
     const isLow = typeof confidence ===  "number" && confidence < 0.60;
 
+    // for UI
     const directionLabels = {
         0: "right",
         1: "up",
@@ -28,14 +29,16 @@ export default function ModelVisualizer(){
         3: "↓"
     }
 
+    // reverse so it shows images by newest
     const displayImages = [...data].reverse();
 
     let secondBest = null; 
 
+    // takes the second best guess and its confidence score
     if (Array.isArray(probabilities) && probabilities.length > 1 && prediction != null){
-        const indexed = probabilities.map((p,i) => ({prob:p, id: i }));
-        indexed.sort((a,b) => b.prob - a.prob);
-        secondBest = indexed[1]?.id !== prediction ? indexed[1] : indexed[2];
+        secondBest = probabilities.map((p,i) => ({prob: p, id: i }))
+        .filter(item => item.id !== classId)
+        .sort((a,b) => b.prob - a.prob)[0];        
        
     }
 
@@ -52,7 +55,7 @@ export default function ModelVisualizer(){
                 <p>Second guess: {secondBest ? directionLabels[secondBest.id] + directionArrows[secondBest.id] + (secondBest.prob*100).toFixed(2) + "%": "-"}</p>
                 {isLow && (
                     <h2 style={{color: "#ff0000"}}> 
-                    ⚠ Model is confused. Try collecting more data for this gesture!
+                    ⚠ Model has low confidence. Try collecting more data for this gesture!
                     </h2>
                 )} 
                 {!isLow && (
@@ -61,9 +64,6 @@ export default function ModelVisualizer(){
                     </h2>
                 )} 
 
-                {/*<p>Confidence: {confidence ? confidence.toFixed(2) : "-"}</p> */}
-
-               {/* <p>Loss: {loss ?? "-"} </p>*/}
             </section>
 
 

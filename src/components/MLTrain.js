@@ -24,7 +24,8 @@ import {
     gameRunningAtom,
     predictionAtom,
     probabilitiesAtom,
-    confidenceAtom
+    confidenceAtom, 
+    classIdAtom
 } from "../GlobalState";
 import { useAtom } from "jotai";
 //import { data, train } from "@tensorflow/tfjs";
@@ -69,6 +70,8 @@ export default function MLTrain({ webcamRef }) {
     const [, setPredictionDirection] = useAtom(predictionAtom);
     const [, setConfidence] = useAtom(confidenceAtom);
     const [, setProbabilities] = useAtom(probabilitiesAtom);
+    const [, setClassId] = useAtom(classIdAtom);
+
     
     
 
@@ -106,6 +109,7 @@ export default function MLTrain({ webcamRef }) {
             setPredictionDirection(result.direction);
             setConfidence(result.confidence);
             setProbabilities(result.probabilities);
+            setClassId(result.classId);
             console.log("Prediction:", result);
 
             await new Promise((resolve) => setTimeout(resolve, 250));
