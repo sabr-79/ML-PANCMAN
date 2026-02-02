@@ -53,7 +53,6 @@ export default function ModelVisualizer(){
         .sort((a,b) => b.prob - a.prob)[0];        
        
     }
-    console.log(data.map(d => [d.label, typeof d.label]));
     
 
 
